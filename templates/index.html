@@ -5,7 +5,7 @@
     <title>Simple Map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../static/styles/styles.css">
 
     <!-- for autocomplete -->
     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOcZOEW2Q07uQmpCDj4VCBanEW1yJerBM&libraries=places"></script> -->
@@ -13,11 +13,13 @@
   </head>
   <body>
     <div id="formWrapper" style="overflow-y:scroll;  overflow-x: hidden;">
+    <!-- <form action="/submitForm" method="post" accept-charset="UTF-8"> -->
     <form>
       <div class = "label">Enter Starting point</div>
       <br>
       <input type="text" name="start" id="start" placeholder="Starting Destination">
       <br>
+      <!-- TODO: autocomplete -->
       <!-- <script>
         var input = document.getElementById('start');
         var autocomplete = new google.maps.places.Autocomplete(input);
@@ -62,6 +64,7 @@ function initMap() {
 
 }
 
+
 function calcRoute() {
   var start = document.getElementById('start').value;
   var end = document.getElementById('end').value;
@@ -75,12 +78,47 @@ function calcRoute() {
     if (status == 'OK') {
       directionsDisplay.setDirections(response);
       console.log(response)
+
+      //call the traversing thing
+      // use .then to make it execute after the setDirections one
+      retrieveCongestion();
       }
   });
+
+  function retrieveCongestion() {
+//     var table = document.getElementById("adp-substep");
+//     for (var i = 0, row; row = table.rows[i]; i++) {
+//    //iterate through rows
+//    //rows would be accessed using the "row" variable assigned in the for loop
+//       for (var j = 0, col; col = row.cells[j]; j++) {
+//
+//      //iterate through columns
+//      //columns would be accessed using the "col" variable assigned in the for loop
+//    }
+// }
+
+      var collection = document.getElementsByTagName("td");
+
+      for( var i = 0; i < collection.length; i++)
+      {
+
+            if (collection[i].innerText.includes("Bahnhof Hardbrücke"))
+             {
+               console.log("THAT'S OUR STOP");
+             }
+      }
+
+  }
+
+
 }
-
-//testing ith just start
-
+//removing some unnecessary elements
+//// TODO:
+// function removeElement(element) {
+//      element.parentNode.removeChild(element);
+// }
+//
+// removeElement(document.getElementsByClassName('warnbox-content'));
 
 
     </script>
