@@ -12,7 +12,7 @@
 
   </head>
   <body>
-    <div id="formWrapper">
+    <div id="formWrapper" style="overflow-y:scroll;  overflow-x: hidden;">
     <form>
       <div class = "label">Enter Starting point</div>
       <br>
@@ -57,18 +57,19 @@ function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
   directionsDisplay.setMap(map);
 
+  //calls the instructions
+  directionsDisplay.setPanel(document.getElementById('formWrapper'));
+
 }
 
 function calcRoute() {
-
-
-
   var start = document.getElementById('start').value;
   var end = document.getElementById('end').value;
   var request = {
     origin: start,  // Haight.
     destination: end,  // Ocean Beach.
-    travelMode: google.maps.TravelMode.TRANSIT
+    travelMode: google.maps.TravelMode.TRANSIT,
+    provideRouteAlternatives: true,
   };
   directionsService.route(request, function(response, status) {
     if (status == 'OK') {
