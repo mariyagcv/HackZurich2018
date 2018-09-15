@@ -6,17 +6,37 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles.css">
+
+    <!-- for autocomplete -->
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOcZOEW2Q07uQmpCDj4VCBanEW1yJerBM&libraries=places"></script> -->
+
   </head>
   <body>
-    <div id="map"></div>
+    <div id="formWrapper">
     <form>
-      First name:<br>
+      <div class = "label">Enter Starting point</div>
+      <br>
       <input type="text" name="start" id="start" placeholder="Starting Destination">
+      <br>
+      <!-- <script>
+        var input = document.getElementById('start');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+      </script> -->
+      <div class = "label">Enter Ending point</div>
       <br>
       <input type="text" name="end" id="end" placeholder="Ending Destination">
       <br><br>
-      <button type="button" onclick="return calcRoute()">Submit</button>
+      <button type="button" onclick="return calcRoute()" class="submitBtn">Submit</button>
     </form>
+
+    <p>Some slider</p>
+    <input type="range" min="1" max="100" value="50" class="slider" id="slide1">
+
+  </div>
+
+
+
+    <div id="map"></div>
 
     <!-- <button onclick="calcRoute()">Click me</button> -->
     <script>
@@ -25,6 +45,7 @@
 var directionsService
 var directionsDisplay
 function initMap() {
+
  directionsService = new google.maps.DirectionsService();
  directionsDisplay = new google.maps.DirectionsRenderer();
   // var haight = new google.maps.LatLng(37.7699298, -122.4469157);
@@ -35,9 +56,13 @@ function initMap() {
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
   directionsDisplay.setMap(map);
+
 }
 
 function calcRoute() {
+
+
+
   var start = document.getElementById('start').value;
   var end = document.getElementById('end').value;
   var request = {
@@ -53,8 +78,12 @@ function calcRoute() {
   });
 }
 
+//testing ith just start
+
+
 
     </script>
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOcZOEW2Q07uQmpCDj4VCBanEW1yJerBM&libraries=places"></script> -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOcZOEW2Q07uQmpCDj4VCBanEW1yJerBM&callback=initMap"
     async defer></script>
   </body>
