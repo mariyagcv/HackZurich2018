@@ -76,42 +76,55 @@ function calcRoute() {
   };
   directionsService.route(request, function(response, status) {
     if (status == 'OK') {
+      for (i=0; i<response["routes"].length; i++)
+      {
+        route = response["routes"][i];
+        for(j=0; j<route.legs.length;j++)
+        {
+          if(route.legs[j].start_address.includes("8005 Zürich, Switzerland")||
+            route.legs[j].end_address.includes("8005 Zürich, Switzerland"))
+          {
+            route.legs[j].arrival_time.text  =  route.legs[j].arrival_time.text  + 'tewset';
+            //make 3 colors for congestions with tresholds; <30 is empty
+            //
+            arrival_time = route.legs[j].arrival_time.text;
+            console.log(arrival_time);
+          }
+          // console.log(response.departure_time);
+        }
+      }
+
+
+      //put congestion
       directionsDisplay.setDirections(response);
-      console.log(response)
+      // console.log(response)
 
       //call the traversing thing
       // use .then to make it execute after the setDirections one
-      retrieveCongestion();
+
       }
   });
+}
 
-  function retrieveCongestion() {
-//     var table = document.getElementById("adp-substep");
-//     for (var i = 0, row; row = table.rows[i]; i++) {
-//    //iterate through rows
-//    //rows would be accessed using the "row" variable assigned in the for loop
-//       for (var j = 0, col; col = row.cells[j]; j++) {
-//
-//      //iterate through columns
-//      //columns would be accessed using the "col" variable assigned in the for loop
-//    }
-// }
+  function retrieveCongestion(response) {
 
-      var collection = document.getElementsByTagName("td");
+      //for each in the routes array, look at each leg and rint the arrival time (text value)
+      //departure_time, start_address (or location idk) and end_location
 
-      for( var i = 0; i < collection.length; i++)
-      {
 
-            if (collection[i].innerText.includes("Bahnhof Hardbrücke"))
-             {
-               console.log("THAT'S OUR STOP");
-             }
-      }
-
+      // var spans = document.getElementsByTagName("span");
+      // var timeFormat = /^([0-9]{2})\:([0-9]{2})\-([0-9]{2})\:([0-9]{2})$/
+      //
+      // for(i = 0; i < spans.length; i++)
+      // {
+      //   if(spans[i].attributes.jstcache !=undefined && timeFormat.test(spans[i].innerText) == true)
+      //     {
+      //       console.log(spans[i].innerText);
+      //     }
+      // }
   }
 
 
-}
 //removing some unnecessary elements
 //// TODO:
 // function removeElement(element) {
