@@ -74,20 +74,49 @@ function calcRoute() {
     travelMode: google.maps.TravelMode.TRANSIT,
     provideRouteAlternatives: true,
   };
+  //congestion number that will be returned from func
+  var congestNum = 50;
+  var block_to_insert ;
+  var container_block ;
+
   directionsService.route(request, function(response, status) {
     if (status == 'OK') {
       for (i=0; i<response["routes"].length; i++)
       {
         route = response["routes"][i];
+
+        console.log(route);
         for(j=0; j<route.legs.length;j++)
         {
           if(route.legs[j].start_address.includes("8005 Zürich, Switzerland")||
             route.legs[j].end_address.includes("8005 Zürich, Switzerland"))
           {
-            route.legs[j].arrival_time.text  =  route.legs[j].arrival_time.text  + 'tewset';
+              
+            // route.legs[j].arrival_time.text  =  route.legs[j].arrival_time.text  + '\n Congestion rate is ' + congestNum;
+            // route.legs[j].arrival_time.text = route.legs[j].arrival_time.text +
             //make 3 colors for congestions with tresholds; <30 is empty
             //
+            // congest will be a number with the congestion rate
+            // switch (congestion <30) congestion >30 && <80 congestion > 80
+            // 1. congestionNumber + append text saying "Not busy"
+            //2. congestNum + append text "Mildly busy"
+            //3. congestNum + append text "Very busy"
+            //also put background colors on all of those ! (blue, yellow, red)
+            //at the bottom: number of people currently at the station
+            //OPTIONAL: make slider move for several days and display busy/not busy
+            //based on that
+
+            //this is for inserting the coloured elements
+            //
+            // block_to_insert = document.createElement( 'div' );
+            // block_to_insert.innerHTML = 'JAVASCRIPT' ;
+            //
+            // container_block = document.getElementById( 'formWrapper' );
+            // container_block.appendChild( block_to_insert );
+
+            ///
             arrival_time = route.legs[j].arrival_time.text;
+
             console.log(arrival_time);
           }
           // console.log(response.departure_time);
