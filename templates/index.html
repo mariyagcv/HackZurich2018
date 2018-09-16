@@ -6,7 +6,7 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" href="../static/styles/styles.css">
-
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <!-- for autocomplete -->
     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOcZOEW2Q07uQmpCDj4VCBanEW1yJerBM&libraries=places"></script> -->
 
@@ -17,7 +17,7 @@
     <form>
       <div class = "label">Enter Starting point</div>
       <br>
-      <input type="text" name="start" id="start" placeholder="Starting Destination">
+      <input type="text" name="start" id="start" value="Zurich Oerlikon" placeholder="Starting Destination">
       <br>
       <!-- TODO: autocomplete -->
       <!-- <script>
@@ -26,7 +26,7 @@
       </script> -->
       <div class = "label">Enter Ending point</div>
       <br>
-      <input type="text" name="end" id="end" placeholder="Ending Destination">
+      <input type="text" name="end" id="end" value="Zurich Hardbruke" placeholder="Ending Destination">
       <br><br>
       <button type="button" onclick="return calcRoute()" class="submitBtn">Submit</button>
     </form>
@@ -74,7 +74,7 @@ function calcRoute() {
     provideRouteAlternatives: true,
   };
   //congestion number that will be returned from func
-  var congestNum = 20;
+  // var congestNum = 20;
   var block_to_insert ;
   var container_block ;
 
@@ -99,35 +99,60 @@ function calcRoute() {
           if(route.legs[j].start_address.includes("8005 Zürich, Switzerland")||
             route.legs[j].end_address.includes("8005 Zürich, Switzerland"))
           {
+            var arrive = route.legs[j].arrival_time.text
+            var arrival_time_encoded = arrive.replace(":", "-")
+            $.ajax({
+              url:"http://localhost:5000/prediction",
+              leg: route.legs[j],
+              routeno:i,
+              data:{"arrival_time":arrival_time_encoded},
+              success:function(response){
+                setTimeout(this, 1000);
+                console.log("success");
+                console.log(response);
+                list = document.querySelectorAll("[data-route-index]");
+                console.log(list);
+                console.log("Route number", this.routeno);
+                if(response<30)
+                {
 
+                    list[this.routeno].style.backgroundColor = "green";
+                    //make new element with colour
+
+                }
+
+                else if(response>30 && response <80)
+                {
+
+                    list[this.routeno].style.backgroundColor = "yellow"
+                  }
+
+                else
+                {
+                    list[this.routeno].style.backgroundColor = "red"
+                }
+
+                  divs = list[this.routeno].querySelectorAll('div');
+                  divs[divs.length-1].innerHTML += ', people present: '  + response;
+
+
+                arrival_time = this.leg.arrival_time.text;
+
+                console.log(arrival_time);
+              },
+              error:function()
+              {
+                console.log("error");
+              }
+
+
+            })
             //call localhost:5000/prediction with a parameter (time)
-            xhr.open('GET', "http://localhost:5000/prediction?arrival_time=Test&", true);
-            xhr.send();
-
-            route.legs[j].arrival_time.text  =  route.legs[j].arrival_time.text  + ', people present: '  + congestNum;
-
-            if(congestNum<30)
-            {
-                route.legs[j].duration.text = route.legs[j].duration.text + ', rate: low';
-                //make new element with colour
-
-            }
-
-            else if(congestNum>30 && congestNum <80)
-            {
-                route.legs[j].duration.text = route.legs[j].duration.text + ', rate: medium';
-            }
-
-            else
-            {
-                route.legs[j].duration.text = route.legs[j].duration.text + ', rate: high';
-            }
+      //      xhr.open('GET', "http://localhost:5000/prediction?arrival_time='"+route.legs[j].arrival_time.text+"'", true);
+        //    xhr.send(null);
 
 
 
-            arrival_time = route.legs[j].arrival_time.text;
-
-            console.log(arrival_time);
           }
           // console.log(response.departure_time);
         }
