@@ -14,6 +14,7 @@ def home():
     return render_template('index.html')
 
 
+
 @app.route('/prediction', methods = ['GET'])
 def received():
     time = request.args.get('arrival_time')

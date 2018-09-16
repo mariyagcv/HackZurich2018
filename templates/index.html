@@ -50,7 +50,7 @@ function initMap() {
 
  directionsService = new google.maps.DirectionsService();
  directionsDisplay = new google.maps.DirectionsRenderer();
-  
+
   var mapOptions = {
     center: {lat: 47.3769, lng: 8.5417},
     zoom: 13
@@ -74,7 +74,6 @@ function calcRoute() {
     provideRouteAlternatives: true,
   };
   //congestion number that will be returned from func
-<<<<<<< HEAD
   var congestNum = 20;
   var block_to_insert ;
   var container_block ;
@@ -84,12 +83,6 @@ function calcRoute() {
   //for request
   var xhr = new XMLHttpRequest();
 
-=======
-  var congestNum = 50;
-  var block_to_insert ;
-  var container_block ;
-
->>>>>>> a3b6b774ee492578456e7b8fb3d3421514b038f1
   directionsService.route(request, function(response, status) {
     if (status == 'OK') {
 
@@ -106,7 +99,6 @@ function calcRoute() {
           if(route.legs[j].start_address.includes("8005 Zürich, Switzerland")||
             route.legs[j].end_address.includes("8005 Zürich, Switzerland"))
           {
-<<<<<<< HEAD
 
             //call localhost:5000/prediction with a parameter (time)
             xhr.open('GET', "http://localhost:5000/prediction?arrival_time=Test&", true);
@@ -133,18 +125,6 @@ function calcRoute() {
 
 
 
-              
-            // route.legs[j].arrival_time.text  =  route.legs[j].arrival_time.text  + '\n Congestion rate is ' + congestNum;
-            // route.legs[j].arrival_time.text = route.legs[j].arrival_time.text +
-            //make 3 colors for congestions with tresholds; <30 is empty
-            //
-            // congest will be a number with the congestion rate
-            // switch (congestion <30) congestion >30 && <80 congestion > 80
-            // 1. congestionNumber + append text saying "Not busy"
-            //2. congestNum + append text "Mildly busy"
-            //3. congestNum + append text "Very busy"
-            //also put background colors on all of those ! (blue, yellow, red)
-            //at the bottom: number of people currently at the station
             arrival_time = route.legs[j].arrival_time.text;
 
             console.log(arrival_time);
@@ -228,3 +208,5 @@ function calcRoute() {
     async defer></script>
   </body>
 </html>
+Chat Conversation End
+Type a message...
